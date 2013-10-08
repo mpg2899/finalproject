@@ -7,11 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 
+
+
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /* 
  * ButtonDemo.java requires the following files:
@@ -28,8 +33,13 @@ public class LoopDemo extends JPanel
     	// We need to pass in an array that contains which days have events
     	// We need to pass in the number of days in the month
     	// We need to pass in what day of the week the calendar starts on.
-    	int START_DAY = 6;
+    	int START_DAY = 3;
     	int MONTH_DAYS = 28;
+    	Map<String, String> mymap = new HashMap<String,String>();
+    	for (int v = 0; v < 10; v++) {
+    		 
+    	}
+    	
     	int leftover = ((START_DAY + MONTH_DAYS) % 7);
     	if (leftover != 0) {
     		leftover = 7 - leftover;
@@ -73,11 +83,21 @@ public class LoopDemo extends JPanel
             b1.setMnemonic(KeyEvent.VK_D);
             b1.setPreferredSize(new Dimension(75,50));
             // If date is in array, set one command
-            b1.setActionCommand("noitems");
+            final int s1 = s;
+            b1.addActionListener(new ActionListener() {
+            	 @Override
+                 public void actionPerformed(ActionEvent e) {
+                     System.out.println("in");
+                     b1.putClientProperty("id", Integer.valueOf(s1));
+                     System.out.println(b1.getClientProperty("id"));
+                 }
+            });
             b1.setBackground(Color.GRAY);
             add(b1);
     	}
     }
+
+
 
 
 	@Override
@@ -87,6 +107,8 @@ public class LoopDemo extends JPanel
 	            System.out.println(e.getActionCommand());
 	            String mystring = e.getActionCommand().substring(9);
 	            System.out.println(mystring);
+	            
 	        }
+
 	}
 }

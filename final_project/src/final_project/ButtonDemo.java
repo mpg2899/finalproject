@@ -2,12 +2,14 @@ package final_project;
 
 
 import javax.swing.AbstractButton;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,14 +23,22 @@ import java.awt.event.KeyEvent;
  */
 public class ButtonDemo extends JPanel
                         implements ActionListener {
+	//private static LoopDemo myContentPane;
+
+	//private static LoopDemo myContentPane2;
+	
+	private static JFrame frame2;
+	
+	public JPanel mycontainer;
+	
     protected JButton b1, b2, b3;
 
     public ButtonDemo() {
-        //ImageIcon leftButtonIcon = createImageIcon("images/right.gif");
-       // ImageIcon middleButtonIcon = createImageIcon("images/middle.gif");
-        //ImageIcon rightButtonIcon = createImageIcon("images/left.gif");
+        ImageIcon leftButtonIcon = createImageIcon("images/right.gif");
+        ImageIcon middleButtonIcon = createImageIcon("images/middle.gif");
+        ImageIcon rightButtonIcon = createImageIcon("left.jpg");
     	this.setPreferredSize(new Dimension(500,500));
-        b1 = new JButton("Disable middle button");
+        b1 = new JButton("Disable middle button", leftButtonIcon);
         b1.setVerticalTextPosition(AbstractButton.CENTER);
         b1.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
         b1.setMnemonic(KeyEvent.VK_D);
@@ -125,14 +135,32 @@ public class ButtonDemo extends JPanel
     		showScreen2();
     	}
     }
+    public static int reallyClose() {
+    	
+    	return 2;
+    }
     public static void showScreen2() {
         JFrame frame2 = new JFrame("Frame2");
-        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame2.setDefaultCloseOperation(reallyClose());
+        
+        // Setup multiple panels
+        JPanel mycontainer = new JPanel();
+        mycontainer.setLayout(new BoxLayout(mycontainer, BoxLayout.X_AXIS));
+        
+        LoopDemo myContentPane2 = new LoopDemo();
+        myContentPane2.setOpaque(true);
+        myContentPane2.setSize(500,500);
+        
         LoopDemo myContentPane = new LoopDemo();
         myContentPane.setOpaque(true);
-        frame2.setContentPane(myContentPane);
-        frame2.setTitle("my loop demo");
         myContentPane.setSize(500,500);
+        
+        mycontainer.add(myContentPane);
+        mycontainer.add(myContentPane2);
+        
+        //frame2.setContentPane(myContentPane);
+        frame2.setContentPane(mycontainer);
+        frame2.setTitle("my loop demo");
         frame2.setResizable(false);
         frame2.pack();
         frame2.setVisible(true);
