@@ -44,7 +44,7 @@ public class LoopDemo extends JPanel
     	if (leftover != 0) {
     		leftover = 7 - leftover;
     	}
-    	System.out.println(leftover);
+    	//System.out.println(leftover);
     	this.setPreferredSize(new Dimension(570,500));
     	
     	for (int s = 0; s < START_DAY; s++) {
