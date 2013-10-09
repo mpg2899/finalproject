@@ -1,9 +1,5 @@
 package final_project;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
 
 public class StartGui {
 
@@ -15,6 +11,7 @@ public class StartGui {
         myContentPane2.setSize(500,500);
         */
        // mainFrame.add(myContentPane2);
+		mainFrame.setResizable(false);
         mainFrame.pack();
     	mainFrame.setVisible(true);
     	//mainFrame.createChangePanel();
