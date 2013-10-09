@@ -1,14 +1,13 @@
 package final_project;
 
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 public class MyFrame2 extends JFrame{
     private JPanel panel1, panel2, panel3;
-    private JButton but,but2,but3; 
+    private JButton but,but2,but3, but4; 
     public MyFrame2()
     {
        createPanel();
@@ -33,10 +32,15 @@ public class MyFrame2 extends JFrame{
     	but3 = new JButton("TestButton");
         but3.addActionListener(new addButtonListener());
         but3.setBounds(50, 90, 190, 30);//There are example values but remember about setting size
+        
+    	but4 = new JButton("Read Activity");
+        but4.addActionListener(new addButtonListener3());
+        but4.setBounds(50, 90, 190, 30);//There are example values but remember about setting size
     }
     private void addPanel()
     {
         panel3.add(but3);
+        panel3.add(but4);
         panel2.add(but2);
         add(panel3);
     }
@@ -57,14 +61,15 @@ public class MyFrame2 extends JFrame{
         	printAll(getGraphics());
         }
     }
-
-    public static void main(String args[])
+    class addButtonListener3 implements ActionListener
     {
-        Frame frame = new Frame();
-        frame.setTitle("Test Software");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500);
-        frame.setVisible(true);
+        public void actionPerformed(ActionEvent ae) 
+        {
+        	CalendarActivity myActivity = DBConnect.readDB();
+    		System.out.println(myActivity.name);
+        }
     }
+
+
 
 }
