@@ -2,17 +2,115 @@ package final_project;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
+import final_project.LoopDemo.addButtonListener2;
+
+// This is the main class that does the heavy lifting
 public class MyFrame2 extends JFrame{
-    private JPanel panel1, panel2, panel3;
+
+	// Declare buttons and panels to be added to our frame.
+    private JButton startBut, nextMonthBut, previousMonthBut, allAppointmentsBut;
+    private JPanel startPanel, calPanel, controlPanel;
+    
+    // Testing buttons and panels below.
     private JButton but,but2,but3, but4; 
+    private JPanel panel1, panel2, panel3;
+
+    //Constructor.
     public MyFrame2()
     {
+    	createStartPanel();
+    	createControlPanel();
+    	createCalPanel();
+    	addControlButtons();
+    	addStartPanels();
+    	
+    	// Testing below.
+    	/*
        createPanel();
        addPanel();
+       */
     }
+    
+    private void createStartPanel() {
+    	// Initialize our main menu panel.
+    	startPanel = new JPanel();
+    	// Find Users function goes here.
+    	// Need an array or object.
+    	findUsers();
+    	// For loop to display all user buttons.
+    	// Buttons when clicked will start calendar.
+    	/* 
+    	 for (int i = 0; i < 10; i++) {
+    	 	addUserButton(userid, username);
+    	 }
+    	 */
+    	// Create new user button goes here.
+    	
+    }
+    
+    private void createControlPanel() {
+    	// Initialize our control Panel.
+    	// Probably doesn't need it's own class.
+    	controlPanel = new ControlPanel();
+    }
+    
+    private void createCalPanel() {
+    	
+    }
+    
+    private void addControlButtons() {
+    	// Add buttons that go on the control bar below the calendar.
+    	startBut = new JButton("Main Menu");
+    	startBut.addActionListener(new mainMenuButtonListener());
+        controlPanel.add(startBut);
+    	
+    }
+    
+    private void addStartPanels() {
+    	// Add the startPanel to the content pane.
+    	getContentPane().add(startPanel);
+    	repaint();
+    	printAll(getGraphics());
+    }
+    
+    private void addUserButton(int userid, String username) {
+    	// Create User Buttons given user name and user id.
+    	selectUserButtonListener mybutton = new selectUserButtonListener();
+    	mybutton.userid = userid;
+    }
+    private void drawCalendar(int userid, int month) {
+    	// calPanel should be initialized by this point.
+    }
+    
+    private void findUsers() {
+    	// Connect to DB to fetch user names and IDs.
+    }
+    
+    class mainMenuButtonListener implements ActionListener {
+    	// We remove the calendar and control panel to return to start.
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			getContentPane().remove(calPanel);
+			getContentPane().remove(controlPanel);
+			getContentPane().add(startPanel);
+		}
+    	
+    }
+    
+    class selectUserButtonListener implements ActionListener {
+    	public int userid;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			// So, here we remove the start panel
+			// And add the calendar panel using drawCalendar function.
+		}
+    	
+    }
+    // Testing functions below.
     private void createPanel()
     {
        /* panel1 = new LoopDemo();
@@ -41,10 +139,10 @@ public class MyFrame2 extends JFrame{
     {
         panel3.add(but3);
         panel3.add(but4);
-        panel2.add(but2);
+        //panel2.add(but2);
         add(panel3);
     }
-
+    
     class addButtonListener implements ActionListener
     {
         public void actionPerformed(ActionEvent ae) 
