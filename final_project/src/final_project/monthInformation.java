@@ -10,12 +10,11 @@ public class monthInformation {
 	
 	
 	// Constructor
-	public monthInformation() {
-		year = 2013;
-		month = 11;
-		day = 1;
-		cal1 = new GregorianCalendar(year, month, day);
-		dayofweek = cal1.get(Calendar.DAY_OF_WEEK);
+	public monthInformation(int year, int month) {
+		this.year = year;
+		this.month = month;
+		this.day = 1;
+		cal1 = new GregorianCalendar(this.year, this.month, this.day);
 	}
 	
 	public int getDays() {
@@ -25,15 +24,11 @@ public class monthInformation {
 		return daysInMonth;
 	}
 	
-	public int startDays() {
+	public int startDay() {
 		
-		return 0;
+		return cal1.get(Calendar.DAY_OF_WEEK);
 	}
 	
-	public int stopDays() {
-		
-		return 0;
-	}
 	
 	
 }

@@ -32,15 +32,16 @@ import java.util.Map;
 public class LoopDemo extends JPanel
                         implements ActionListener {
     protected JButton b1, b2, b3;
-
+    int START_DAY, MONTH_DAYS;
     
-    public LoopDemo() {
+    public LoopDemo(int sday, int mdays) {
     	// We need to pass in an array that contains which days have events
     	// We need to pass in the number of days in the month
     	// We need to pass in what day of the week the calendar starts on.
     	System.out.println();
-    	int START_DAY = 3;
-    	int MONTH_DAYS = 28;
+    	START_DAY = sday;
+    	MONTH_DAYS = mdays;
+    	
     	Map<String, String> mymap = new HashMap<String,String>();
     	for (int v = 0; v < 10; v++) {
     		 

@@ -5,13 +5,14 @@ public class StartGui {
 
 	public static void createAndShowGUI() {
 
-		MyFrame2 mainFrame = new MyFrame2();
+		MainFrame mainFrame = new MainFrame();
+		//MyFrame2 mainFrame = new MyFrame2();
 	/*	LoopDemo myContentPane2 = new LoopDemo();
         myContentPane2.setOpaque(true);
         myContentPane2.setSize(500,500);
         */
        // mainFrame.add(myContentPane2);
-		mainFrame.setResizable(false);
+		//mainFrame.setResizable(false);
         mainFrame.pack();
     	mainFrame.setVisible(true);
     	//mainFrame.createChangePanel();

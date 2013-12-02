@@ -35,7 +35,9 @@ public class MyFrame2 extends JFrame{
     
     private void createStartPanel() {
     	// Initialize our main menu panel.
-    	startPanel = new JPanel();
+    	//startPanel = new JPanel();
+    	int[] testarr = {1, 2, 4};
+    	startPanel = new CalPanel(2, 28, testarr, 11, 2013, 0);
     	// Find Users function goes here.
     	// Need an array or object.
     	findUsers();
@@ -126,7 +128,7 @@ public class MyFrame2 extends JFrame{
     
     private void createPanel3() {
     	// pass in variables here.
-    	panel3 = new LoopDemo();
+    	panel3 = new LoopDemo(0, 31);
     	but3 = new JButton("TestButton");
         but3.addActionListener(new addButtonListener());
         but3.setBounds(50, 90, 190, 30);//There are example values but remember about setting size

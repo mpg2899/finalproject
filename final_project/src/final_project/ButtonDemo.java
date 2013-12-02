@@ -147,11 +147,11 @@ public class ButtonDemo extends JPanel
         JPanel mycontainer = new JPanel();
         mycontainer.setLayout(new BoxLayout(mycontainer, BoxLayout.X_AXIS));
         
-        LoopDemo myContentPane2 = new LoopDemo();
+        LoopDemo myContentPane2 = new LoopDemo(1, 1);
         myContentPane2.setOpaque(true);
         myContentPane2.setSize(500,500);
         
-        LoopDemo myContentPane = new LoopDemo();
+        LoopDemo myContentPane = new LoopDemo(1, 1);
         myContentPane.setOpaque(true);
         myContentPane.setSize(500,500);
         
