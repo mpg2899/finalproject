@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,15 +23,15 @@ public class MainFrame  extends JFrame{
 	
 	// Declare buttons and panels to be added to our frame.
     private JButton startBut, nextMonthBut, previousMonthBut, allAppointmentsBut;
-    private JPanel startPanel, calPanel, controlPanel, containerPanel;
-    
-    // Testing buttons and panels below.
-    private JButton but,but2,but3, but4; 
-    private JPanel panel1, panel2, panel3;
+    private JPanel startPanel, calPanel, controlPanel, containerPanel, newUserPanel;
     
     // User info
     private int USERID, MONTH, YEAR;
     private String USERNAME;
+    
+    // Event info
+    private int EDAY, ESTART_HOUR, ESTART_MIN, ESTOP_HOUR, ESTOP_MIN;
+    private String ETITLE, ETEXT;
     
     //DB Object
     private DBConn db;
@@ -118,24 +120,20 @@ public class MainFrame  extends JFrame{
     }
     
     private void findUsers() {
-    	// Connect to DB to fetch user names and IDs.
-    	String[][] userinfo = db.getUsers();
     	
-    	for (int i = 0; i < userinfo[0].length; i++) {
-    		System.out.println(userinfo[0][i]);
-    		addUserButton(userinfo[0][i], userinfo[1][i]);
+    	// Connect to DB to fetch user names and IDs.
+    	db.findUsers();
+    	
+    	List<String> userslist = db.usersList;
+    	List<String> useridslist = db.useridsList;
+    	
+    	for (int i = 0; i < userslist.size(); i++) {
+    		addUserButtonModel(useridslist.get(i), userslist.get(i));
     	}
-    	// For loop to display all user buttons.
-    	// Buttons when clicked will start calendar.
-    	/* 
-    	 for (int i = 0; i < 10; i++) {
-    	 	addUserButton(userid, username);
-    	 }
-    	 */
     }
     
+    // New user button model.
     private void newUser() {
-    	// Create new user button goes here.
     	JButton newuserb = new JButton("New");
     	newuserb.setVerticalTextPosition(SwingConstants.CENTER);
     	newuserb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
@@ -147,7 +145,8 @@ public class MainFrame  extends JFrame{
 		startPanel.add(newuserb);
     }
     
-    private void addUserButton(String userid, String username) {
+    // Select user button model.
+    private void addUserButtonModel(String userid, String username) {
 		JButton userb = new JButton(username);
 		userb.setVerticalTextPosition(SwingConstants.CENTER);
 		userb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
@@ -161,6 +160,10 @@ public class MainFrame  extends JFrame{
 		startPanel.add(userb);
     }
     
+    
+    private void saveNewUser() {
+
+    }
      //--------------------------
     // Buttons
    //--------------------------
@@ -184,32 +187,66 @@ public class MainFrame  extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			// Launch popup
 			
-			// Add fields to popup
+			// Remove other start panel.
+			getContentPane().remove(startPanel);
 			
-			// Add save button to popup
-	    	
+			newUserPanel = new JPanel();
+
+			// Add fields to new panel.
+			
+			// Add save button to panel.
+	    	JButton saveuserb = new JButton("Save");
+	    	saveuserb.setVerticalTextPosition(SwingConstants.CENTER);
+	    	saveuserb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
+	    	saveuserb.setMnemonic(KeyEvent.VK_D);
+	    	saveuserb.setPreferredSize(new Dimension(75,50));
+	    	saveNewUserButtonListener mylisten = new saveNewUserButtonListener();
+	    	//mainMenuButtonListener mylisten2 = new mainMenuButtonListener();
+			saveuserb.addActionListener(mylisten);
+			//saveuserb.addActionListener(mylisten2);
+			saveuserb.setBackground(Color.WHITE);
+			//mylisten.newUserName = username;
+			newUserPanel.add(saveuserb);
+			
+			
+			// Display everything
+			
+			getContentPane().add(newUserPanel);
+			pack();
+	    	repaint();
+	    	printAll(getGraphics());
 		}
     }
     
     class saveNewUserButtonListener implements ActionListener {
+		
+		public String newUserName;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			
 			// Save entry into DB
+			db.saveNewUser();
 			
+			// testing
+			db.useridsList.add("2");
+			db.usersList.add("Joe");
+			
+			//end testing
 			
 			// Repaint start panel
-			getContentPane().remove(startPanel);
-			createStartPanel();
-			containerPanel.remove(calPanel);
-			containerPanel.remove(controlPanel);
-			getContentPane().remove(containerPanel);
+	    	
+	    	getContentPane().remove(newUserPanel);
+	    	createStartPanel();
 			addStartPanels();
+			
 			pack();
 	    	repaint();
+	    	System.out.println("New user saved!");
+	    	
+			//saveNewUser();
 		}
     }
     
@@ -219,10 +256,13 @@ public class MainFrame  extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			// So, here we remove the start panel
-			// And add the calendar panel using drawCalendar function.
+
+			// Set our user variables for the selected user.
 			USERNAME = this.username;
 			USERID = this.userid;
+			
+			// So, here we remove the start panel
+			// And add the calendar panel using drawCalendar function.
 	    	createControlPanel();
 	    	createCalPanel();
 			getContentPane().remove(startPanel);
