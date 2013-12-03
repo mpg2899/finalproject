@@ -65,6 +65,7 @@ public class MainFrame  extends JFrame{
     	// Find Users function goes here.
     	// Need an array or object.
     	findUsers();
+    	newUser();
     }
     
     private void createControlPanel() {
@@ -131,7 +132,19 @@ public class MainFrame  extends JFrame{
     	 	addUserButton(userid, username);
     	 }
     	 */
+    }
+    
+    private void newUser() {
     	// Create new user button goes here.
+    	JButton newuserb = new JButton("New");
+    	newuserb.setVerticalTextPosition(SwingConstants.CENTER);
+    	newuserb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
+    	newuserb.setMnemonic(KeyEvent.VK_D);
+    	newuserb.setPreferredSize(new Dimension(75,50));
+    	newUserButtonListener mylisten = new newUserButtonListener();
+		newuserb.addActionListener(mylisten);
+		newuserb.setBackground(Color.GREEN);
+		startPanel.add(newuserb);
     }
     
     private void addUserButton(String userid, String username) {
@@ -142,7 +155,7 @@ public class MainFrame  extends JFrame{
 		userb.setPreferredSize(new Dimension(75,50));
 		selectUserButtonListener mylisten = new selectUserButtonListener();
 		userb.addActionListener(mylisten);
-		userb.setBackground(Color.GREEN);
+		userb.setBackground(Color.WHITE);
 		mylisten.userid = Integer.parseInt(userid);
 		mylisten.username = username;
 		startPanel.add(userb);
@@ -165,6 +178,39 @@ public class MainFrame  extends JFrame{
 	    	repaint();
 		}
     	
+    }
+    
+    class newUserButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			// Launch popup
+			
+			// Add fields to popup
+			
+			// Add save button to popup
+	    	
+		}
+    }
+    
+    class saveNewUserButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+			// Save entry into DB
+			
+			
+			// Repaint start panel
+			getContentPane().remove(startPanel);
+			createStartPanel();
+			containerPanel.remove(calPanel);
+			containerPanel.remove(controlPanel);
+			getContentPane().remove(containerPanel);
+			addStartPanels();
+			pack();
+	    	repaint();
+		}
     }
     
     class selectUserButtonListener implements ActionListener {

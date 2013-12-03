@@ -8,6 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DBConn {
+	
+	// testing
+	public String[] users = {"Bob", "Mike"};
+	public String[] userids = {"0", "1"};
+	// end testing
+	
 	Connection connection;
 	public DBConn() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
@@ -16,8 +22,7 @@ public class DBConn {
 	}
 	
 	public String[][] getUsers() {
-		String[] users = {"Bob", "Mike"};
-		String[] userids = {"0", "1"};
+
 		String[][] results = {userids, users};
 		return results;
 	}
