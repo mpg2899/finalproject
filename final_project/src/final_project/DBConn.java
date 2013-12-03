@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DBConn {
 	
-	// Create some lists as an atttribute so we don't have to return lists of lists.
+	// Create some lists as an attribute so we don't have to return lists of lists.
 	public List<String> usersList = new ArrayList<String>();
 	public List<String> useridsList = new ArrayList<String>();
 	
@@ -65,9 +65,10 @@ public class DBConn {
 	}
 	
 	// Find all dates in current month which have an event for current user.
-	public void activeDates() {
+	public void activeDates(int userid) {
 		// Populate activeDatesList
 		
+		activeDatesList.add(1);
 	}
 	
 	// Find all events on given date for current user.
@@ -80,7 +81,6 @@ public class DBConn {
 	// Get details for given event.
 	public void getEventDetails() {
 		// Query DB to get specific event information based on EventID.
-		
 	}
 	
 

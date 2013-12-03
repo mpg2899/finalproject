@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
@@ -21,7 +22,8 @@ public class CalPanel extends JPanel implements ActionListener{
 	JButton labelb, blankb, dayb;
 	
 	// Constructor
-	public CalPanel(int sday, int mday, int[] activedays, int month, int year, int userid) {
+	public CalPanel(int sday, int mday, int month, int year, int userid, DBConn db) {
+		db.getEventDetails();
 		MONTH = month;
 		YEAR = year;
 		USERID = userid;
@@ -29,7 +31,7 @@ public class CalPanel extends JPanel implements ActionListener{
 		MONTH_DAYS = mday;
 		this.setPreferredSize(new Dimension(570,420));
 		addDayLabels();
-		addDays(activedays);
+		addDays(db.activeDatesList);
 	}
 	
 	// Add Day of Week labels at top.
@@ -47,7 +49,7 @@ public class CalPanel extends JPanel implements ActionListener{
 	}
 	
 	// Add Button for each day of week
-	public void addDays(int[] activedays) {
+	public void addDays(List<Integer> activedays) {
 		
 		// Add blank days at beginning of month.
     	for (int s = 0; s < START_DAY; s++) {
@@ -64,14 +66,13 @@ public class CalPanel extends JPanel implements ActionListener{
         
     		// Check to see if the day is in the list.
     		boolean inlist = false;
-    		for (int l = 0; l < activedays.length; l++) {
-    			if (i == activedays[l]) {
+    		for (int l = 0; l < activedays.size(); l++) {
+    			if (i == activedays.get(l)) {
     				inlist = true;
     			}
     		}
     		// If date is in array, set one command
     		if (inlist) {
-    			System.out.println(i + " is in the list");
     			editDay mylisten = new editDay();
     			mylisten.var1 = i;
     			mylisten.eventDay = i;

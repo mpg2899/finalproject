@@ -2,12 +2,10 @@ package final_project;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -15,9 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-import final_project.MyFrame2.mainMenuButtonListener;
-import final_project.MyFrame2.selectUserButtonListener;
 
 public class MainFrame  extends JFrame{
 	
@@ -89,10 +84,11 @@ public class MainFrame  extends JFrame{
     	monthInformation monthInfo = new monthInformation(MONTH, YEAR);
     	
     	// Connect to database to determine which days have active events for the user.
-    	int[] activedays = {1, 2, 4};
+    	db.activeDates(USERID);
+    	List<Integer> activedays = db.activeDatesList;
     	
     	// CalPanel(int sday, int mday, int[] activedays, int month, int year, int userid)
-    	calPanel = new CalPanel(monthInfo.startDay(), monthInfo.getDays(), activedays, MONTH, YEAR, USERID);
+    	calPanel = new CalPanel(monthInfo.startDay(), monthInfo.getDays(), MONTH, YEAR, USERID, db);
     }
     
     private void addControlButtons() {
