@@ -10,7 +10,7 @@ public class monthInformation {
 	
 	
 	// Constructor
-	public monthInformation(int year, int month) {
+	public monthInformation(int month, int year) {
 		this.year = year;
 		this.month = month;
 		this.day = 1;
@@ -26,7 +26,7 @@ public class monthInformation {
 	
 	public int startDay() {
 		
-		return cal1.get(Calendar.DAY_OF_WEEK);
+		return cal1.get(Calendar.DAY_OF_WEEK)-1;
 	}
 	
 	

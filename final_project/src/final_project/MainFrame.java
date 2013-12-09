@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -32,7 +33,7 @@ public class MainFrame  extends JFrame{
     private DBConn db;
 
     //Constructor.
-    public MainFrame()
+    public MainFrame() throws SQLException
     {
     	
     	// Connect to the database or exit
@@ -48,6 +49,7 @@ public class MainFrame  extends JFrame{
     	createStartPanel();
     	addStartPanels();
     	createContainerPanel();
+    	setStartMonthYear();
     	// Testing below.
     	/*
        createPanel();
@@ -55,7 +57,13 @@ public class MainFrame  extends JFrame{
        */
     }
     
-    private void createStartPanel() {
+    private void setStartMonthYear() {
+		// TODO Auto-generated method stub
+    	MONTH = Calendar.getInstance().get(Calendar.MONTH);
+    	YEAR = Calendar.getInstance().get(Calendar.YEAR);
+	}
+
+	private void createStartPanel() throws SQLException {
     	// Initialize our main menu panel.
     	startPanel = new JPanel();
     	startPanel.setPreferredSize(new Dimension(200,200));
@@ -84,10 +92,11 @@ public class MainFrame  extends JFrame{
     	monthInformation monthInfo = new monthInformation(MONTH, YEAR);
     	
     	// Connect to database to determine which days have active events for the user.
-    	db.activeDates(USERID);
+    	System.out.println(YEAR);
+    	db.activeDates(USERID, MONTH, YEAR);
     	List<Integer> activedays = db.activeDatesList;
     	
-    	// CalPanel(int sday, int mday, int[] activedays, int month, int year, int userid)
+    	// Create our Calendar.
     	calPanel = new CalPanel(monthInfo.startDay(), monthInfo.getDays(), MONTH, YEAR, USERID, db);
     }
     
@@ -115,13 +124,13 @@ public class MainFrame  extends JFrame{
     	// calPanel should be initialized by this point.
     }
     
-    private void findUsers() {
+    private void findUsers() throws SQLException {
     	
     	// Connect to DB to fetch user names and IDs.
     	db.findUsers();
     	
     	List<String> userslist = db.usersList;
-    	List<String> useridslist = db.useridsList;
+    	List<Integer> useridslist = db.useridsList;
     	
     	for (int i = 0; i < userslist.size(); i++) {
     		addUserButtonModel(useridslist.get(i), userslist.get(i));
@@ -142,7 +151,7 @@ public class MainFrame  extends JFrame{
     }
     
     // Select user button model.
-    private void addUserButtonModel(String userid, String username) {
+    private void addUserButtonModel(int userid, String username) {
 		JButton userb = new JButton(username);
 		userb.setVerticalTextPosition(SwingConstants.CENTER);
 		userb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
@@ -151,7 +160,7 @@ public class MainFrame  extends JFrame{
 		selectUserButtonListener mylisten = new selectUserButtonListener();
 		userb.addActionListener(mylisten);
 		userb.setBackground(Color.WHITE);
-		mylisten.userid = Integer.parseInt(userid);
+		mylisten.userid = userid;
 		mylisten.username = username;
 		startPanel.add(userb);
     }
@@ -224,18 +233,20 @@ public class MainFrame  extends JFrame{
 			// TODO Auto-generated method stub
 			
 			// Save entry into DB
-			db.saveNewUser();
+			db.saveNewUser("Joe");
 			
-			// testing
-			db.useridsList.add("2");
-			db.usersList.add("Joe");
 			
 			//end testing
 			
 			// Repaint start panel
 	    	
 	    	getContentPane().remove(newUserPanel);
-	    	createStartPanel();
+	    	try {
+				createStartPanel();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			addStartPanels();
 			
 			pack();

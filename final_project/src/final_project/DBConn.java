@@ -13,7 +13,7 @@ public class DBConn {
 	
 	// Create some lists as an attribute so we don't have to return lists of lists.
 	public List<String> usersList = new ArrayList<String>();
-	public List<String> useridsList = new ArrayList<String>();
+	public List<Integer> useridsList = new ArrayList<Integer>();
 	
 	// List of active dates
 	public List<Integer> activeDatesList = new ArrayList<Integer>();
@@ -36,39 +36,80 @@ public class DBConn {
 	public DBConn() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
 		 connection = null;
-		 connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
-		 
-		 // Testing
-
+		 connection = DriverManager.getConnection("jdbc:sqlite:calendar.db");
 	}
 	
 	// Save new user to DB.
-	public void saveNewUser() {
+	public void saveNewUser(String username) {
 
-	
+		try {
+	      Statement statement = connection.createStatement();
+	      statement.setQueryTimeout(30);  // set timeout to 30 sec.
+	      statement.executeUpdate("insert into users values(null, '" + username + "')");
+		}
+	    catch(SQLException e)
+	    {
+	      // if the error message is "out of memory", 
+	      // it probably means no database file is found
+	      System.err.println(e.getMessage());
+	      
+	    }
+	    finally
+	    {
+	        System.out.println("New user saved!");
+	    }
 	}
 	
 	// Populate list of all users and userIDs found in DB.
-	public void findUsers() {
+	public void findUsers() throws SQLException {
 		// Query to get all users and ids.
 		
 		// Clear existing list
 		usersList.clear();
 		useridsList.clear();
 		
+		  Statement statement = connection.createStatement();
+	      statement.setQueryTimeout(30);  // set timeout to 30 sec.
+	      ResultSet rs = statement.executeQuery("select * from users");
+	      while(rs.next())
+	      {
+	        // read the result set
+	        System.out.println("name = " + rs.getString("name"));
+	        System.out.println("id = " + rs.getInt("id"));
+			 usersList.add(rs.getString("name"));
+			 useridsList.add(rs.getInt("id"));
+	      }
 		// For loop to add each result to list.
-		 usersList.add("Bob");
-		 useridsList.add("0");
-		 
-		 usersList.add("Mike");
-		 useridsList.add("1");
+
 	}
 	
 	// Find all dates in current month which have an event for current user.
-	public void activeDates(int userid) {
+	public void activeDates(int userid, int month, int year) {
 		// Populate activeDatesList
-		
-		activeDatesList.add(1);
+		try {
+		      Statement statement = connection.createStatement();
+		      statement.setQueryTimeout(30);  // set timeout to 30 sec.
+		      ResultSet rs = statement.executeQuery(
+		    		  "select day from events where userid = " + userid
+		    		  + " and month = " + month
+		    		  + " and year = " + year);
+		      while(rs.next())
+		      {
+		        // read the result set
+		    	activeDatesList.add(rs.getInt("day"));
+		      }
+			}
+		    catch(SQLException e)
+		    {
+		      // if the error message is "out of memory", 
+		      // it probably means no database file is found
+		      System.err.println(e.getMessage());
+		      
+		    }
+		    finally
+		    {
+		        System.out.println("New user saved!");
+		    }
 	}
 	
 	// Find all events on given date for current user.

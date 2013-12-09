@@ -1,9 +1,11 @@
 package final_project;
 
+import java.sql.SQLException;
+
 
 public class StartGui {
 
-	public static void createAndShowGUI() {
+	public static void createAndShowGUI() throws SQLException {
 
 		MainFrame mainFrame = new MainFrame();
 		//MyFrame2 mainFrame = new MyFrame2();
@@ -27,7 +29,12 @@ public class StartGui {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				createAndShowGUI(); 
+				try {
+					createAndShowGUI();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 			}
 		});
 	}

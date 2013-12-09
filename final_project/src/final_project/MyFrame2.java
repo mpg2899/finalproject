@@ -37,7 +37,7 @@ public class MyFrame2 extends JFrame{
     	// Initialize our main menu panel.
     	//startPanel = new JPanel();
     	int[] testarr = {1, 2, 4};
-    	startPanel = new CalPanel(2, 28, testarr, 11, 2013, 0);
+    	//startPanel = new CalPanel(2, 28, testarr, 11, 2013, 0);
     	// Find Users function goes here.
     	// Need an array or object.
     	findUsers();
