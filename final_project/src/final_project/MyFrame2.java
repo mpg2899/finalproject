@@ -55,7 +55,7 @@ public class MyFrame2 extends JFrame{
     private void createControlPanel() {
     	// Initialize our control Panel.
     	// Probably doesn't need it's own class.
-    	controlPanel = new ControlPanel();
+    	controlPanel = new ControlPanel(1, 1);
     }
     
     private void createCalPanel() {

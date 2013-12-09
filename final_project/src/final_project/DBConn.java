@@ -85,6 +85,8 @@ public class DBConn {
 	
 	// Find all dates in current month which have an event for current user.
 	public void activeDates(int userid, int month, int year) {
+		// Empty active dates list.
+		activeDatesList.clear();
 		// Populate activeDatesList
 		try {
 		      Statement statement = connection.createStatement();

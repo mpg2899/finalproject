@@ -12,7 +12,9 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class MainFrame  extends JFrame{
@@ -20,6 +22,7 @@ public class MainFrame  extends JFrame{
 	// Declare buttons and panels to be added to our frame.
     private JButton startBut, nextMonthBut, previousMonthBut, allAppointmentsBut;
     private JPanel startPanel, calPanel, controlPanel, containerPanel, newUserPanel;
+    private JTextField newUserTextField;
     
     // User info
     private int USERID, MONTH, YEAR;
@@ -35,7 +38,7 @@ public class MainFrame  extends JFrame{
     //Constructor.
     public MainFrame() throws SQLException
     {
-    	
+    	super("Calendar App");
     	// Connect to the database or exit
     	try {
 			db = new DBConn();
@@ -76,7 +79,7 @@ public class MainFrame  extends JFrame{
     private void createControlPanel() {
     	// Initialize our control Panel.
     	// Probably doesn't need it's own class.
-    	controlPanel = new ControlPanel();
+    	controlPanel = new ControlPanel(MONTH, YEAR);
     	addControlButtons();
     	controlPanel.setPreferredSize(new Dimension(570,50));
     }
@@ -92,7 +95,7 @@ public class MainFrame  extends JFrame{
     	monthInformation monthInfo = new monthInformation(MONTH, YEAR);
     	
     	// Connect to database to determine which days have active events for the user.
-    	System.out.println(YEAR);
+    	System.out.println(USERID);
     	db.activeDates(USERID, MONTH, YEAR);
     	List<Integer> activedays = db.activeDatesList;
     	
@@ -102,8 +105,20 @@ public class MainFrame  extends JFrame{
     
     private void addControlButtons() {
     	// Add buttons that go on the control bar below the calendar.
+    	monthButtonListener mylisten = new monthButtonListener();
+    	mylisten.dir = -1;
+    	JButton leftMonthBut = new JButton("<<");
+    	leftMonthBut.addActionListener(mylisten);
+    	
+    	mylisten = new monthButtonListener();
+    	mylisten.dir = 1;
+    	JButton rightMonthBut = new JButton(">>");
+    	rightMonthBut.addActionListener(mylisten);
+    	
     	startBut = new JButton("Main Menu");
     	startBut.addActionListener(new mainMenuButtonListener());
+    	controlPanel.add(leftMonthBut);
+    	controlPanel.add(rightMonthBut);
         controlPanel.add(startBut);
     	
     }
@@ -188,6 +203,36 @@ public class MainFrame  extends JFrame{
     	
     }
     
+    class monthButtonListener implements ActionListener {
+    	// Change the current month.
+    	public int dir;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			MONTH += dir;
+			if (MONTH > 11) {
+				MONTH = 0;
+				YEAR++;
+			}
+			if (MONTH < 0) {
+				MONTH = 11;
+				YEAR--;
+			}
+			getContentPane().remove(containerPanel);
+			containerPanel.remove(calPanel);
+			containerPanel.remove(controlPanel);
+	    	createControlPanel();
+	    	createCalPanel();	
+	    	getContentPane().add(containerPanel);
+			containerPanel.add(calPanel);
+			containerPanel.add(controlPanel);
+			pack();
+	    	repaint();
+	    	printAll(getGraphics());
+		}
+    	
+    }
+    
     class newUserButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -199,7 +244,8 @@ public class MainFrame  extends JFrame{
 			newUserPanel = new JPanel();
 
 			// Add fields to new panel.
-			
+			newUserTextField = new JTextField(20);
+			newUserPanel.add(newUserTextField);
 			// Add save button to panel.
 	    	JButton saveuserb = new JButton("Save");
 	    	saveuserb.setVerticalTextPosition(SwingConstants.CENTER);
@@ -231,9 +277,11 @@ public class MainFrame  extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			newUserName = null;
+			newUserName = newUserTextField.getText();
+			if (newUserName.length() >= 4) {
 			// Save entry into DB
-			db.saveNewUser("Joe");
+			db.saveNewUser(newUserName);
 			
 			
 			//end testing
@@ -252,6 +300,11 @@ public class MainFrame  extends JFrame{
 			pack();
 	    	repaint();
 	    	System.out.println("New user saved!");
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Please enter a user name 4 or more characters long");
+			}
+			
 	    	
 			//saveNewUser();
 		}

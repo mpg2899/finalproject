@@ -74,7 +74,6 @@ public class CalPanel extends JPanel implements ActionListener{
     		// If date is in array, set one command
     		if (inlist) {
     			editDay mylisten = new editDay();
-    			mylisten.var1 = i;
     			mylisten.eventDay = i;
     			mylisten.eventMonth = MONTH;
     			mylisten.eventYear = YEAR;
@@ -86,7 +85,6 @@ public class CalPanel extends JPanel implements ActionListener{
         // If the day is not in the array, set the other command
     		else {
     			launchNewDay mylisten = new launchNewDay();
-    			mylisten.var1 = i;
     			mylisten.eventDay = i;
     			mylisten.eventMonth = MONTH;
     			mylisten.eventYear = YEAR;
@@ -128,22 +126,22 @@ public class CalPanel extends JPanel implements ActionListener{
 
     class launchNewDay implements ActionListener
     {
-    	public int var1;
+
     	public int eventYear, eventMonth, eventDay, userID;
         public void actionPerformed(ActionEvent ae) 
         {
 
-        	System.out.println(var1);
+        	System.out.println(eventDay);
         }
     }
     class editDay implements ActionListener
     {
-    	public int var1;
+
     	public int eventYear, eventMonth, eventDay, userID;
         public void actionPerformed(ActionEvent ae) 
         {
 
-        	System.out.println(var1);
+        	System.out.println(eventDay);
         }
     }
 

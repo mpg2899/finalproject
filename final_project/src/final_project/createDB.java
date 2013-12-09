@@ -29,6 +29,9 @@ public class createDB
       statement.executeUpdate("drop table if exists events");
       statement.executeUpdate("create table events (id integer primary key autoincrement, userid integer, day integer, month integer, year integer)");
       statement.executeUpdate("insert into events values(null, 1, 28, 11, 2013)");
+      statement.executeUpdate("insert into events values(null, 1, 3, 11, 2013)");
+      statement.executeUpdate("insert into events values(null, 1, 2, 0, 2014)");
+      statement.executeUpdate("insert into events values(null, 2, 4, 11, 2013)");
       //statement.executeUpdate("insert into users values(null, 'Joe')");
       ResultSet rs = statement.executeQuery("select * from users");
       while(rs.next())
