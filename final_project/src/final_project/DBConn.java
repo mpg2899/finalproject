@@ -19,16 +19,10 @@ public class DBConn {
 	public List<Integer> activeDatesList = new ArrayList<Integer>();
 	
 	// Lists for containing info for all events on a specific date.
-	public List<Integer> DaysEventsListIDs = new ArrayList<Integer>();
-	public List<Integer> DaysEventsListStartHour = new ArrayList<Integer>();
-	public List<Integer> DaysEventsListStopHour = new ArrayList<Integer>();
-	public List<Integer> DaysEventsListStartMin = new ArrayList<Integer>();
-	public List<Integer> DaysEventsListStopMin = new ArrayList<Integer>();
-	public List<String> DaysEventsListTitles = new ArrayList<String>();
-	
 	public List<EventList> eventList = new ArrayList<EventList>();
+	
 	// Attributes for an event.
-    public int EDAY, ESTART_HOUR, ESTART_MIN, ESTOP_HOUR, ESTOP_MIN;
+    public int EID, EDAY, ESTART_HOUR, ESTART_MIN, ESTOP_HOUR, ESTOP_MIN;
     public String ETITLE, ETEXT;
 	
 	

@@ -63,11 +63,7 @@ public class MainFrame  extends JFrame{
     	addStartPanels();
     	createContainerPanel();
     	setStartMonthYear();
-    	// Testing below.
-    	/*
-       createPanel();
-       addPanel();
-       */
+
     }
     
     private void setStartMonthYear() {
@@ -80,15 +76,14 @@ public class MainFrame  extends JFrame{
     	// Initialize our main menu panel.
     	startPanel = new JPanel();
     	startPanel.setPreferredSize(new Dimension(200,200));
-    	// Find Users function goes here.
-    	// Need an array or object.
+
+    	// Add user select and new users buttons via functions.
     	findUsers();
     	newUser();
     }
     
     private void createControlPanel() {
     	// Initialize our control Panel.
-    	// Probably doesn't need it's own class.
     	controlPanel = new ControlPanel(MONTH, YEAR);
     	addControlButtons();
     	controlPanel.setPreferredSize(new Dimension(570,50));
@@ -166,7 +161,7 @@ public class MainFrame  extends JFrame{
     private void newUser() {
     	JButton newuserb = new JButton("New");
     	newuserb.setVerticalTextPosition(SwingConstants.CENTER);
-    	newuserb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
+    	newuserb.setHorizontalTextPosition(SwingConstants.LEADING); 
     	newuserb.setMnemonic(KeyEvent.VK_D);
     	newuserb.setPreferredSize(new Dimension(75,50));
     	newUserButtonListener mylisten = new newUserButtonListener();
@@ -179,7 +174,7 @@ public class MainFrame  extends JFrame{
     private void addUserButtonModel(int userid, String username) {
 		JButton userb = new JButton(username);
 		userb.setVerticalTextPosition(SwingConstants.CENTER);
-		userb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
+		userb.setHorizontalTextPosition(SwingConstants.LEADING); 
 		userb.setMnemonic(KeyEvent.VK_D);
 		userb.setPreferredSize(new Dimension(75,50));
 		selectUserButtonListener mylisten = new selectUserButtonListener();
@@ -256,23 +251,22 @@ public class MainFrame  extends JFrame{
 			// Add fields to new panel.
 			newUserTextField = new JTextField(20);
 			newUserPanel.add(newUserTextField);
+			
 			// Add save button to panel.
 	    	JButton saveuserb = new JButton("Save");
 	    	saveuserb.setVerticalTextPosition(SwingConstants.CENTER);
-	    	saveuserb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
+	    	saveuserb.setHorizontalTextPosition(SwingConstants.LEADING); 
 	    	saveuserb.setMnemonic(KeyEvent.VK_D);
 	    	saveuserb.setPreferredSize(new Dimension(75,50));
 	    	saveNewUserButtonListener mylisten = new saveNewUserButtonListener();
-	    	//mainMenuButtonListener mylisten2 = new mainMenuButtonListener();
+	    	
 			saveuserb.addActionListener(mylisten);
-			//saveuserb.addActionListener(mylisten2);
+			
 			saveuserb.setBackground(Color.WHITE);
-			//mylisten.newUserName = username;
+			
 			newUserPanel.add(saveuserb);
 			
-			
 			// Display everything
-			
 			getContentPane().add(newUserPanel);
 			pack();
 	    	repaint();
@@ -292,12 +286,8 @@ public class MainFrame  extends JFrame{
 			if (newUserName.length() >= 4) {
 			// Save entry into DB
 			db.saveNewUser(newUserName);
-			
-			
-			//end testing
-			
+
 			// Repaint start panel
-	    	
 	    	getContentPane().remove(newUserPanel);
 	    	try {
 				createStartPanel();
@@ -315,8 +305,6 @@ public class MainFrame  extends JFrame{
 				JOptionPane.showMessageDialog(null, "Please enter a user name 4 or more characters long");
 			}
 			
-	    	
-			//saveNewUser();
 		}
     }
     
