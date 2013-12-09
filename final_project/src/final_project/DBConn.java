@@ -26,6 +26,7 @@ public class DBConn {
 	public List<Integer> DaysEventsListStopMin = new ArrayList<Integer>();
 	public List<String> DaysEventsListTitles = new ArrayList<String>();
 	
+	public List<EventList> eventList = new ArrayList<EventList>();
 	// Attributes for an event.
     public int EDAY, ESTART_HOUR, ESTART_MIN, ESTOP_HOUR, ESTOP_MIN;
     public String ETITLE, ETEXT;
@@ -92,7 +93,7 @@ public class DBConn {
 		      Statement statement = connection.createStatement();
 		      statement.setQueryTimeout(30);  // set timeout to 30 sec.
 		      ResultSet rs = statement.executeQuery(
-		    		  "select day from events where userid = " + userid
+		    		  "select * from events where userid = " + userid
 		    		  + " and month = " + month
 		    		  + " and year = " + year);
 		      while(rs.next())
@@ -115,8 +116,39 @@ public class DBConn {
 	}
 	
 	// Find all events on given date for current user.
-	public void getDaysEvents() {
+	public void getDaysEvents(int userid, int day, int month, int year) {
 		// Populate DaysEventsListIDs, DaysEventsListStartHour, DaysEventsListStopHour, DaysEventsListStartMin, DaysEventsListStopMin, DaysEventsListTitles
+		eventList.clear();
+		EventList myEvent = new EventList();
+		try {
+		      Statement statement = connection.createStatement();
+		      statement.setQueryTimeout(30);  // set timeout to 30 sec.
+		      ResultSet rs = statement.executeQuery(
+		    		  "select id, starthour, startmin, stophour, stopmin, title from events where userid = " + userid
+		    		  + " and day = " + day
+		    		  + " and month = " + month
+		    		  + " and year = " + year
+		    		  + " order by starthour, startmin");
+		      while(rs.next())
+		      {
+		    	myEvent = new EventList();
+		        // read the result set
+		    	myEvent.eid = rs.getInt("id");
+		    	myEvent.starthour = rs.getInt("starthour");
+		    	myEvent.startmin = rs.getInt("startmin");
+		    	myEvent.stophour = rs.getInt("stophour");
+		    	myEvent.stopmin = rs.getInt("stopmin");
+		    	myEvent.title = rs.getString("title");
+		    	eventList.add(myEvent);
+		      }
+			}
+		    catch(SQLException e)
+		    {
+		      // if the error message is "out of memory", 
+		      // it probably means no database file is found
+		      System.err.println(e.getMessage());
+		      
+		    }
 		
 		//Query DB to get those details.
 	}

@@ -37,8 +37,7 @@ public class MainFrame  extends JFrame{
     private DBConn db;
 
     //Constructor.
-    public MainFrame() throws SQLException
-    {
+    public MainFrame() {
     	
     	super("Calendar App");
     	File dbfile = new File("calendar.db");
@@ -54,7 +53,13 @@ public class MainFrame  extends JFrame{
 		}
     	
     	// Create the start panel.
-    	createStartPanel();
+    	try {
+			createStartPanel();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     	addStartPanels();
     	createContainerPanel();
     	setStartMonthYear();

@@ -5,21 +5,11 @@ import java.sql.SQLException;
 
 public class StartGui {
 
-	public static void createAndShowGUI() throws SQLException {
+	public static void createAndShowGUI(){
 
 		MainFrame mainFrame = new MainFrame();
-		//MyFrame2 mainFrame = new MyFrame2();
-	/*	LoopDemo myContentPane2 = new LoopDemo();
-        myContentPane2.setOpaque(true);
-        myContentPane2.setSize(500,500);
-        */
-       // mainFrame.add(myContentPane2);
-		//mainFrame.setResizable(false);
         mainFrame.pack();
     	mainFrame.setVisible(true);
-    	//mainFrame.createChangePanel();
-    	// 
-    	//mainFrame.createPanel();
 	}
 
 
@@ -29,12 +19,9 @@ public class StartGui {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				try {
+
 					createAndShowGUI();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
+
 			}
 		});
 	}

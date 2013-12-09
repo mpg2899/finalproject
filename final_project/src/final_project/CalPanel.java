@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import final_project.LoopDemo.launchNewDay;
 
 public class CalPanel extends JPanel implements ActionListener{
 
-	int MONTH, YEAR, USERID;
+	int DAY, MONTH, YEAR, USERID;
 	int START_DAY, MONTH_DAYS;
 	JButton labelb, blankb, dayb;
 	DBConn db;
@@ -79,9 +80,6 @@ public class CalPanel extends JPanel implements ActionListener{
     		if (inlist) {
     			editDay mylisten = new editDay();
     			mylisten.eventDay = i;
-    			mylisten.eventMonth = MONTH;
-    			mylisten.eventYear = YEAR;
-    			mylisten.userID = USERID;
     			dayb.addActionListener(mylisten);
     			dayb.setBackground(Color.GREEN);
     			dayb.addActionListener(this);
@@ -126,11 +124,17 @@ public class CalPanel extends JPanel implements ActionListener{
 	
 	// Create popup frame for listing events.
 	
-	class listPopup extends JFrame {
-		
+	class ListPopup extends JFrame {
+		ListPopup() {
+			db.getDaysEvents(USERID, DAY, MONTH, YEAR);
+			for (int i=0; i < db.eventList.size(); i++) {
+				System.out.println(db.eventList.get(i).title);
+				System.out.println(db.eventList.get(i).eid);
+			}
+		}
 	}
 	
-	
+
 	// Implement button actions
 
     class launchNewDay implements ActionListener
@@ -146,11 +150,13 @@ public class CalPanel extends JPanel implements ActionListener{
     class editDay implements ActionListener
     {
 
-    	public int eventYear, eventMonth, eventDay, userID;
+    	public int eventDay;
         public void actionPerformed(ActionEvent ae) 
         {
-
-        	System.out.println(eventDay);
+        	DAY = eventDay;
+        	ListPopup listPopup = new ListPopup();
+        	
+        	System.out.println("edit day clicked");
         }
     }
 
