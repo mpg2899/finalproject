@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -20,9 +21,12 @@ public class CalPanel extends JPanel implements ActionListener{
 	int MONTH, YEAR, USERID;
 	int START_DAY, MONTH_DAYS;
 	JButton labelb, blankb, dayb;
+	DBConn db;
+	JFrame listPopup;
 	
 	// Constructor
-	public CalPanel(int sday, int mday, int month, int year, int userid, DBConn db) {
+	public CalPanel(int sday, int mday, int month, int year, int userid, DBConn mydb) {
+		db = mydb;
 		db.getEventDetails();
 		MONTH = month;
 		YEAR = year;
@@ -120,6 +124,11 @@ public class CalPanel extends JPanel implements ActionListener{
 	}
 	
 	
+	// Create popup frame for listing events.
+	
+	class listPopup extends JFrame {
+		
+	}
 	
 	
 	// Implement button actions
