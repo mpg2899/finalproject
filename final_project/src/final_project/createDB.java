@@ -38,12 +38,20 @@ public class createDB
       		+ "startmin integer, "
       		+ "stophour integer, "
       		+ "stopmin integer, "
-      		+ "title string)");
-      statement.executeUpdate("insert into events values(null, 1, 28, 11, 2013, 8, 0, 8, 30, 'Event 1 title')");
-      statement.executeUpdate("insert into events values(null, 1, 3, 11, 2013, 10, 0, 10, 30, 'Event 2 title')");
-      statement.executeUpdate("insert into events values(null, 1, 2, 0, 2014, 8, 0, 8, 30, 'Event 3 title')");
-      statement.executeUpdate("insert into events values(null, 2, 4, 11, 2013, 8, 0, 8, 30, 'Event 4 title')");
-      statement.executeUpdate("insert into events values(null, 1, 3, 11, 2013, 9, 0, 9, 30, 'Event 5 title')");
+      		+ "title string, "
+      		+ "details string)");
+      statement.executeUpdate("insert into events values(null, 1, 28, 11, 2013, 8, 0, 8, 30, 'Event 1 title'" +
+      		", 'Go to the grocery store')");
+      statement.executeUpdate("insert into events values(null, 1, 3, 11, 2013, 10, 0, 10, 30, 'Event 2 title'" +
+    		  ", 'Go to the grocery store')");
+      statement.executeUpdate("insert into events values(null, 1, 2, 0, 2014, 8, 0, 8, 30, 'Event 3 title'" +
+    		  ", 'Go to the grocery store')");
+      statement.executeUpdate("insert into events values(null, 2, 4, 11, 2013, 8, 0, 8, 30, 'Event 4 title'" +
+    		  ", 'Go to the grocery store')");
+      statement.executeUpdate("insert into events values(null, 1, 3, 11, 2013, 9, 0, 9, 30, 'Event 5 title'" +
+    		  ", 'Go to the grocery store')");
+      statement.executeUpdate("insert into events values(null, 1, 3, 11, 2013, 9, 0, 9, 30, 'Event 6 title'" +
+    		  ", 'Go to the grocery store')");
       //statement.executeUpdate("insert into users values(null, 'Joe')");
       ResultSet rs = statement.executeQuery("select * from events");
       while(rs.next())
@@ -51,7 +59,7 @@ public class createDB
         // read the result set
         System.out.println("id = " + rs.getInt("id"));
         System.out.println("id = " + rs.getInt("userid"));
-        System.out.println("day = " + rs.getInt("day"));
+        System.out.println("day = " + rs.getString("details"));
       }
     }
     catch(SQLException e)

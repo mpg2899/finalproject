@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -13,6 +15,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -63,7 +66,7 @@ public class MainFrame  extends JFrame{
     	addStartPanels();
     	createContainerPanel();
     	setStartMonthYear();
-
+    	this.setDefaultCloseOperation(2); // Close the app when the frame is closed.
     }
     
     private void setStartMonthYear() {
@@ -75,7 +78,9 @@ public class MainFrame  extends JFrame{
 	private void createStartPanel() throws SQLException {
     	// Initialize our main menu panel.
     	startPanel = new JPanel();
-    	startPanel.setPreferredSize(new Dimension(200,200));
+    	startPanel.setPreferredSize(new Dimension(250,200));
+    	JLabel startLabel = new JLabel("Choose a user or create a new one");
+    	startPanel.add(startLabel);
 
     	// Add user select and new users buttons via functions.
     	findUsers();
@@ -247,7 +252,8 @@ public class MainFrame  extends JFrame{
 			getContentPane().remove(startPanel);
 			
 			newUserPanel = new JPanel();
-
+			JLabel newLabel = new JLabel("Enter a new user name");
+			newUserPanel.add(newLabel);
 			// Add fields to new panel.
 			newUserTextField = new JTextField(20);
 			newUserPanel.add(newUserTextField);

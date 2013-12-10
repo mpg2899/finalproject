@@ -118,7 +118,7 @@ public class DBConn {
 		      Statement statement = connection.createStatement();
 		      statement.setQueryTimeout(30);  // set timeout to 30 sec.
 		      ResultSet rs = statement.executeQuery(
-		    		  "select id, starthour, startmin, stophour, stopmin, title from events where userid = " + userid
+		    		  "select id, starthour, startmin, stophour, stopmin, title, details from events where userid = " + userid
 		    		  + " and day = " + day
 		    		  + " and month = " + month
 		    		  + " and year = " + year
@@ -133,6 +133,7 @@ public class DBConn {
 		    	myEvent.stophour = rs.getInt("stophour");
 		    	myEvent.stopmin = rs.getInt("stopmin");
 		    	myEvent.title = rs.getString("title");
+		    	myEvent.details = rs.getString("details");
 		    	eventList.add(myEvent);
 		      }
 			}

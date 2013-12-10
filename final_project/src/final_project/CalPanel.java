@@ -10,8 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.AbstractButton;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -19,7 +22,7 @@ import final_project.LoopDemo.launchNewDay;
 
 public class CalPanel extends JPanel implements ActionListener{
 
-	int DAY, MONTH, YEAR, USERID;
+	int DAY, MONTH, YEAR, USERID, EID;
 	int START_DAY, MONTH_DAYS;
 	JButton labelb, blankb, dayb;
 	DBConn db;
@@ -127,11 +130,65 @@ public class CalPanel extends JPanel implements ActionListener{
 	class ListPopup extends JFrame {
 		ListPopup() {
 			db.getDaysEvents(USERID, DAY, MONTH, YEAR);
+			JPanel listPane = new JPanel();
+			listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
+			JLabel label = new JLabel("Existing Events");
+			listPane.add(label);
+			//this.setPreferredSize(new Dimension(570,0));
+			
 			for (int i=0; i < db.eventList.size(); i++) {
-				System.out.println(db.eventList.get(i).title);
-				System.out.println(db.eventList.get(i).eid);
+				JPanel itemPanel = new JPanel();
+				itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.PAGE_AXIS));
+				JPanel detailsPanel = new JPanel();
+				JPanel titlePanel = new JPanel();
+				detailsPanel.setOpaque(false);
+				titlePanel.setOpaque(false);
+				
+				titlePanel.setPreferredSize(new Dimension(570,30));
+				// Set alternating colors for events.
+				if (i % 2 == 0) {
+					itemPanel.setOpaque(true);
+					itemPanel.setBackground(Color.white);
+				}
+				// Format minutes so there are two digits.
+				String startmin, stopmin;
+				if (db.eventList.get(i).startmin == 0) {
+					startmin = "00";
+				}
+				else startmin = String.valueOf(db.eventList.get(i).startmin);
+				if (db.eventList.get(i).stopmin == 0) {
+					stopmin = "00";
+				}
+				else stopmin = String.valueOf(db.eventList.get(i).stopmin);
+				
+				
+				JLabel timeLabel = new JLabel(db.eventList.get(i).starthour +
+						":" + startmin + " - " +
+						db.eventList.get(i).stophour + ":" +
+						stopmin);
+				JLabel titleLabel = new JLabel(db.eventList.get(i).title);
+				JLabel detailsLabel = new JLabel(db.eventList.get(i).details);
+				//JButton viewButton = new JButton("" + db.eventList.get(i).eid);
+				JButton viewButton = new JButton("Edit");
+				titlePanel.add(timeLabel);
+				titlePanel.add(titleLabel);
+				titlePanel.add(viewButton);
+
+				detailsPanel.add(detailsLabel);
+				itemPanel.add(titlePanel);
+				itemPanel.add(detailsPanel);
+				listPane.add(itemPanel);
 			}
+			
+			this.setVisible(true);
+			this.add(listPane);
+			this.pack();
+			this.repaint();
 		}
+	}
+	
+	class EventPopup extends JFrame {
+		
 	}
 	
 
@@ -154,13 +211,24 @@ public class CalPanel extends JPanel implements ActionListener{
         public void actionPerformed(ActionEvent ae) 
         {
         	DAY = eventDay;
-        	ListPopup listPopup = new ListPopup();
+        	listPopup = new ListPopup();
         	
         	System.out.println("edit day clicked");
         }
     }
 
+    class editEvent implements ActionListener
+    {
 
+    	public int eventID;
+        public void actionPerformed(ActionEvent ae) 
+        {
+        	EID = eventID;
+        	listPopup = new EventPopup();
+        	
+        	System.out.println("edit day clicked");
+        }
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
