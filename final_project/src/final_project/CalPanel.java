@@ -27,6 +27,7 @@ public class CalPanel extends JPanel implements ActionListener{
 	JButton labelb, blankb, dayb;
 	DBConn db;
 	JFrame listPopup;
+	EventList EOB = new EventList();
 	
 	// Constructor
 	public CalPanel(int sday, int mday, int month, int year, int userid, DBConn mydb) {
@@ -133,7 +134,14 @@ public class CalPanel extends JPanel implements ActionListener{
 			JPanel listPane = new JPanel();
 			listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
 			JLabel label = new JLabel("Existing Events");
+			
+			JButton newEventB = new JButton("New Event");
+			editEvent mylistennew = new editEvent();
+			mylistennew.eOB = new EventList();
+			newEventB.addActionListener(mylistennew);
+			listPane.add(newEventB);
 			listPane.add(label);
+
 			//this.setPreferredSize(new Dimension(570,0));
 			
 			for (int i=0; i < db.eventList.size(); i++) {
@@ -170,6 +178,9 @@ public class CalPanel extends JPanel implements ActionListener{
 				JLabel detailsLabel = new JLabel(db.eventList.get(i).details);
 				//JButton viewButton = new JButton("" + db.eventList.get(i).eid);
 				JButton viewButton = new JButton("Edit");
+				editEvent mylisten = new editEvent();
+				mylisten.eOB = db.eventList.get(i);
+				viewButton.addActionListener(mylisten);
 				titlePanel.add(timeLabel);
 				titlePanel.add(titleLabel);
 				titlePanel.add(viewButton);
@@ -188,7 +199,15 @@ public class CalPanel extends JPanel implements ActionListener{
 	}
 	
 	class EventPopup extends JFrame {
-		
+		EventPopup() {
+			JPanel editPane = new JPanel();
+			JLabel test = new JLabel(EOB.title);
+			editPane.add(test);
+			this.add(editPane);
+			this.setVisible(true);
+			this.pack();
+			this.repaint();
+		}
 	}
 	
 
@@ -220,13 +239,14 @@ public class CalPanel extends JPanel implements ActionListener{
     class editEvent implements ActionListener
     {
 
-    	public int eventID;
+    	public EventList eOB;
         public void actionPerformed(ActionEvent ae) 
         {
-        	EID = eventID;
+        	EOB = eOB;
+        	listPopup.dispose();
         	listPopup = new EventPopup();
         	
-        	System.out.println("edit day clicked");
+        	System.out.println("edit event clicked");
         }
     }
 
