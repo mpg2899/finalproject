@@ -63,7 +63,7 @@ public class CalPanel extends JPanel implements ActionListener{
     	
     	// Add days to the calendar
     	for (int i = 1; i <= MONTH_DAYS; i++) {
-    		dayb = new JButton("Day" + i);
+    		dayb = new JButton(""+i);
     		dayb.setVerticalTextPosition(SwingConstants.CENTER);
     		dayb.setHorizontalTextPosition(SwingConstants.LEADING); //aka LEFT, for left-to-right locales
     		dayb.setMnemonic(KeyEvent.VK_D);
