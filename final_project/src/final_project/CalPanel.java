@@ -13,9 +13,14 @@ import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import final_project.LoopDemo.launchNewDay;
@@ -28,6 +33,23 @@ public class CalPanel extends JPanel implements ActionListener{
 	DBConn db;
 	JFrame listPopup;
 	EventList EOB = new EventList();
+	JTextField etitlef, edetailsf;
+	//JComboBox  estarthourf, estartminf, estophourf, estopminf;
+	String[] ehours = {"0","1","2","3","4","5","6","7","8","9",
+			"10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+	String[] emin = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14",
+			"15","16","17","18","19","20","21","22","23","24","25","26","27","28","29",
+			"30","31","32","33","34","35","36","37","38","39","40","41","42","43","44",
+			"45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"};
+	
+	// Edit/Add event fields.
+	JLabel titlel;
+	JComboBox<String> estarthour;
+	JComboBox<String> estartmin;
+	JComboBox<String> estophour;
+	JComboBox<String> estopmin;
+	JTextField titlef;
+	JTextArea detailsf;
 	
 	// Constructor
 	public CalPanel(int sday, int mday, int month, int year, int userid, DBConn mydb) {
@@ -200,8 +222,56 @@ public class CalPanel extends JPanel implements ActionListener{
 	class EventPopup extends JFrame {
 		EventPopup() {
 			JPanel editPane = new JPanel();
-			JLabel test = new JLabel(EOB.title);
-			editPane.add(test);
+			Box box = Box.createHorizontalBox();
+			editPane.setLayout(new BoxLayout(editPane, BoxLayout.PAGE_AXIS));
+			titlef = new JTextField(EOB.title);
+			titlel = new JLabel("Title:");
+			JLabel starttimel = new JLabel("Start Time:");
+			JLabel stoptimel = new JLabel("Stop Time:");
+			JLabel colonl = new JLabel(":");
+			
+			estarthour = new JComboBox<String>(ehours);
+			estartmin = new JComboBox<String>(emin);
+			estarthour.setSelectedIndex(EOB.starthour);
+			estartmin.setSelectedIndex(EOB.startmin);
+			
+			estophour = new JComboBox<String>(ehours);
+			estopmin = new JComboBox<String>(emin);
+			estophour.setSelectedIndex(EOB.stophour);
+			estopmin.setSelectedIndex(EOB.stopmin);
+			
+			box.add(titlel);
+			box.add(titlef);
+			editPane.add(box);
+			box = Box.createHorizontalBox();
+			
+			box.add(starttimel);
+			box.add(estarthour);
+			box.add(colonl);
+			box.add(estartmin);
+			editPane.add(box);
+			
+			box = Box.createHorizontalBox();
+			colonl = new JLabel(":");
+			box.add(stoptimel);
+			box.add(estophour);
+			box.add(colonl);
+			box.add(estopmin);
+			editPane.add(box);
+			
+			
+			JLabel detailsl = new JLabel("Details:");
+			detailsf = new JTextArea(EOB.details);
+			detailsf.setPreferredSize(new Dimension(220, 250));
+			
+			editPane.add(detailsl);
+			editPane.add(detailsf);
+			
+			JButton esaveb = new JButton("Save");
+			saveEvent mylisten = new saveEvent();
+			esaveb.addActionListener(mylisten);
+			editPane.add(esaveb);
+			
 			this.add(editPane);
 			this.setVisible(true);
 			this.pack();
@@ -246,6 +316,28 @@ public class CalPanel extends JPanel implements ActionListener{
         	listPopup = new EventPopup();
         	
         	System.out.println("edit event clicked");
+        }
+    }
+    
+    class saveEvent implements ActionListener
+    {
+
+        public void actionPerformed(ActionEvent ae) 
+        {
+        	if (titlef.getText().length() >= 1) {
+        	EOB.title = titlef.getText();
+        	EOB.details = detailsf.getText();
+        	
+        	EOB.starthour = Integer.parseInt(estarthour.getSelectedItem().toString());
+        	EOB.startmin = Integer.parseInt(estartmin.getSelectedItem().toString());
+        	EOB.stophour = Integer.parseInt(estophour.getSelectedItem().toString());
+        	EOB.stopmin = Integer.parseInt(estopmin.getSelectedItem().toString());
+        	
+        	db.saveEvent(EOB);
+        	}
+        	else {
+        		JOptionPane.showMessageDialog(null, "Please a title for the event");
+        	}
         }
     }
 
