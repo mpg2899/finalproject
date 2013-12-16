@@ -43,8 +43,6 @@ public class MainFrame  extends JFrame{
     public MainFrame() {
     	
     	super("Calendar App");
-    	File dbfile = new File("calendar.db");
-
     	
     	// Connect to the database or exit
     	try {

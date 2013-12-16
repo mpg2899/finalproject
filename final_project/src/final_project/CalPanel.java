@@ -32,7 +32,6 @@ public class CalPanel extends JPanel implements ActionListener{
 	// Constructor
 	public CalPanel(int sday, int mday, int month, int year, int userid, DBConn mydb) {
 		db = mydb;
-		db.getEventDetails();
 		MONTH = month;
 		YEAR = year;
 		USERID = userid;
