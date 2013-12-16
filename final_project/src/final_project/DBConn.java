@@ -153,12 +153,34 @@ public class DBConn {
 		// Query DB to get specific event information based on EventID.
 	}
 	
-	public void saveEvent(EventList eob) {
+	public void saveEvent(EventList eob, int userid, int day, int month, int year) {
 		Statement statement;
 		try {
 			statement = connection.createStatement();
 			statement.setQueryTimeout(30);  // set timeout to 30 sec.
-			
+			// eid = -1 means new event
+			if (eob.eid == -1) { // Create new record
+				//statement.executeUpdate("insert into events values(null, 1, 28, 11, 2013, 8, 0, 8, 30, 'Event 1 title'" +
+			    //  		", 'Go to the grocery store')");
+				statement.executeUpdate("insert into events values(null, "
+			      + userid + ", " + day + ", " + month + ", " + year + ", " + eob.starthour + ", " + eob.startmin 
+			     + ", " + eob.stophour + ", " + eob.stopmin + ", '" + eob.title + "', '" + eob.details + "')");
+				
+			      ResultSet rs = statement.executeQuery("select * from events");
+			      while(rs.next())
+			      {
+			        // read the result set
+			        System.out.println("id = " + rs.getInt("id"));
+			        System.out.println("id = " + rs.getInt("userid"));
+			        System.out.println("day = " + rs.getString("details"));
+			        System.out.println("day = " + rs.getInt("month"));
+			        System.out.println("day = " + rs.getInt("year"));
+			        System.out.println("day = " + rs.getInt("day"));
+			      }
+			}
+			else { // Update the record.
+				
+			}
 	    
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

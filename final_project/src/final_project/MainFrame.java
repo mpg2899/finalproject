@@ -105,7 +105,6 @@ public class MainFrame  extends JFrame{
     	// Connect to database to determine which days have active events for the user.
     	System.out.println(USERID);
     	db.activeDates(USERID, MONTH, YEAR);
-    	List<Integer> activedays = db.activeDatesList;
     	
     	// Create our Calendar.
     	calPanel = new CalPanel(monthInfo.startDay(), monthInfo.getDays(), MONTH, YEAR, USERID, db);

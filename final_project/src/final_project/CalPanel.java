@@ -31,6 +31,7 @@ public class CalPanel extends JPanel implements ActionListener{
 	int START_DAY, MONTH_DAYS;
 	JButton labelb, blankb, dayb;
 	DBConn db;
+	JPanel SubCalPanel;
 	JFrame listPopup;
 	EventList EOB = new EventList();
 	JTextField etitlef, edetailsf;
@@ -60,8 +61,15 @@ public class CalPanel extends JPanel implements ActionListener{
 		START_DAY = sday;
 		MONTH_DAYS = mday;
 		this.setPreferredSize(new Dimension(570,420));
+		createSubPanel();
+	}
+	public void createSubPanel() {
+		SubCalPanel = new JPanel();
+		SubCalPanel.setPreferredSize(new Dimension(570, 420));
+		db.activeDates(USERID, MONTH, YEAR);
 		addDayLabels();
 		addDays(db.activeDatesList);
+		add(SubCalPanel);
 	}
 	
 	// Add Day of Week labels at top.
@@ -74,7 +82,7 @@ public class CalPanel extends JPanel implements ActionListener{
             labelb.setMnemonic(KeyEvent.VK_D);
             labelb.setPreferredSize(new Dimension(75,20));
             labelb.setBackground(Color.WHITE);
-            add(labelb);
+            SubCalPanel.add(labelb);
     	}
 	}
 	
@@ -113,15 +121,12 @@ public class CalPanel extends JPanel implements ActionListener{
     		else {
     			launchNewDay mylisten = new launchNewDay();
     			mylisten.eventDay = i;
-    			mylisten.eventMonth = MONTH;
-    			mylisten.eventYear = YEAR;
-    			mylisten.userID = USERID;
     			dayb.addActionListener(mylisten);
     			dayb.setBackground(Color.WHITE);
     			dayb.addActionListener(this);
     		}
 
-    		add(dayb);
+    		 SubCalPanel.add(dayb);
     	}
     	
 		// Calcualte days at end of month
@@ -143,7 +148,7 @@ public class CalPanel extends JPanel implements ActionListener{
        // blankb.setMnemonic(KeyEvent.VK_D);
         blankb.setPreferredSize(new Dimension(75,50));
         blankb.setBackground(Color.GRAY);
-        this.add(blankb);
+        SubCalPanel.add(blankb);
 	}
 	
 	
@@ -159,6 +164,7 @@ public class CalPanel extends JPanel implements ActionListener{
 			JButton newEventB = new JButton("New Event");
 			editEvent mylistennew = new editEvent();
 			mylistennew.eOB = new EventList();
+			mylistennew.eOB.eid = -1;
 			newEventB.addActionListener(mylistennew);
 			listPane.add(newEventB);
 			listPane.add(label);
@@ -285,11 +291,13 @@ public class CalPanel extends JPanel implements ActionListener{
     class launchNewDay implements ActionListener
     {
 
-    	public int eventYear, eventMonth, eventDay, userID;
+    	public int eventDay;
         public void actionPerformed(ActionEvent ae) 
         {
-
-        	System.out.println(eventDay);
+        	EOB = new EventList();
+        	DAY = eventDay;
+        	listPopup = new ListPopup();
+        	
         }
     }
     class editDay implements ActionListener
@@ -300,8 +308,7 @@ public class CalPanel extends JPanel implements ActionListener{
         {
         	DAY = eventDay;
         	listPopup = new ListPopup();
-        	
-        	System.out.println("edit day clicked");
+
         }
     }
 
@@ -333,7 +340,16 @@ public class CalPanel extends JPanel implements ActionListener{
         	EOB.stophour = Integer.parseInt(estophour.getSelectedItem().toString());
         	EOB.stopmin = Integer.parseInt(estopmin.getSelectedItem().toString());
         	
-        	db.saveEvent(EOB);
+        	db.saveEvent(EOB, USERID, DAY, MONTH, YEAR);
+
+			
+			SubCalPanel.setVisible(false);
+
+        	listPopup.setVisible(false);
+        	createSubPanel();
+			getRootPane().getContentPane().repaint();
+	    	printAll(getGraphics());
+        	
         	}
         	else {
         		JOptionPane.showMessageDialog(null, "Please a title for the event");
