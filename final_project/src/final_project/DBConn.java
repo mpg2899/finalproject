@@ -49,10 +49,7 @@ public class DBConn {
 	      System.err.println(e.getMessage());
 	      
 	    }
-	    finally
-	    {
-	        System.out.println("New user saved!");
-	    }
+
 	}
 	
 	// Populate list of all users and userIDs found in DB.
@@ -69,8 +66,6 @@ public class DBConn {
 	      while(rs.next())
 	      {
 	        // read the result set
-	        System.out.println("name = " + rs.getString("name"));
-	        System.out.println("id = " + rs.getInt("id"));
 			 usersList.add(rs.getString("name"));
 			 useridsList.add(rs.getInt("id"));
 	      }
@@ -102,10 +97,6 @@ public class DBConn {
 		      // it probably means no database file is found
 		      System.err.println(e.getMessage());
 		      
-		    }
-		    finally
-		    {
-		        System.out.println("New user saved!");
 		    }
 	}
 	
@@ -166,20 +157,14 @@ public class DBConn {
 			      + userid + ", " + day + ", " + month + ", " + year + ", " + eob.starthour + ", " + eob.startmin 
 			     + ", " + eob.stophour + ", " + eob.stopmin + ", '" + eob.title + "', '" + eob.details + "')");
 				
-			      ResultSet rs = statement.executeQuery("select * from events");
-			      while(rs.next())
-			      {
-			        // read the result set
-			        System.out.println("id = " + rs.getInt("id"));
-			        System.out.println("id = " + rs.getInt("userid"));
-			        System.out.println("day = " + rs.getString("details"));
-			        System.out.println("day = " + rs.getInt("month"));
-			        System.out.println("day = " + rs.getInt("year"));
-			        System.out.println("day = " + rs.getInt("day"));
-			      }
 			}
 			else { // Update the record.
-				
+				statement.executeUpdate("update events set userid = " +
+					      + userid + ", day =  " + day + ", month = " + month + ", year = " 
+						+ year + ", starthour = " + eob.starthour + ", startmin = " + eob.startmin 
+					     + ", stophour = " + eob.stophour + ", stopmin = " + eob.stopmin + ", title = '" 
+						+ eob.title + "', details = '" + eob.details + "'" +
+					     		"where id = " + eob.eid);
 			}
 	    
 		} catch (SQLException e) {

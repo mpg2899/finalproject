@@ -321,8 +321,6 @@ public class CalPanel extends JPanel implements ActionListener{
         	EOB = eOB;
         	listPopup.dispose();
         	listPopup = new EventPopup();
-        	
-        	System.out.println("edit event clicked");
         }
     }
     

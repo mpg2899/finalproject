@@ -64,9 +64,18 @@ public class MainFrame  extends JFrame{
     	addStartPanels();
     	createContainerPanel();
     	setStartMonthYear();
-    	this.setDefaultCloseOperation(2); // Close the app when the frame is closed.
+    	//this.setDefaultCloseOperation(2); // Close the app when the frame is closed.
+    	this.addWindowListener(new SaveOnCloseWindowListener());
+
+
     }
     
+    // Make sure we exit when our main frame is closed.
+	public class SaveOnCloseWindowListener extends WindowAdapter {
+	    public void windowClosing(WindowEvent e) {
+	       System.exit(0);
+	    }
+	}
     private void setStartMonthYear() {
 		// TODO Auto-generated method stub
     	MONTH = Calendar.getInstance().get(Calendar.MONTH);
@@ -103,7 +112,6 @@ public class MainFrame  extends JFrame{
     	monthInformation monthInfo = new monthInformation(MONTH, YEAR);
     	
     	// Connect to database to determine which days have active events for the user.
-    	System.out.println(USERID);
     	db.activeDates(USERID, MONTH, YEAR);
     	
     	// Create our Calendar.
@@ -302,7 +310,6 @@ public class MainFrame  extends JFrame{
 			
 			pack();
 	    	repaint();
-	    	System.out.println("New user saved!");
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Please enter a user name 4 or more characters long");
